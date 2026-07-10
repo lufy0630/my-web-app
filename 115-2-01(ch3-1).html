@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>等加速度直線運動：破題特訓</title>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        /* 整體視覺配色套用 */
+        body {
+            background-color: #EBF1F5; /* 主色：迷霧藍 */
+            color: #4C525C; /* 次要色：靜夜灰 */
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif, 'Microsoft JhengHei';
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 850px;
+            margin: auto;
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(76, 82, 92, 0.08);
+            border-top: 6px solid #D9B4B8; /* 輔助色：藕粉色裝飾線 */
+        }
+        h1 {
+            text-align: center;
+            color: #4C525C;
+            margin-bottom: 5px;
+        }
+        .subtitle {
+            text-align: center;
+            color: #7A9EB1; /* 強調色：霧霾藍 */
+            margin-bottom: 25px;
+            font-size: 15px;
+            font-weight: 500;
+        }
+        /* 頁籤樣式優化 */
+        .tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-bottom: 25px;
+            border-bottom: 2px solid #EBF1F5;
+            padding-bottom: 8px;
+        }
+        .tab-btn {
+            background: #ffffff;
+            border: 1px solid #7A9EB1; /* 強調色：霧霾藍 */
+            border-radius: 6px;
+            padding: 8px 14px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            color: #4C525C;
+            transition: all 0.3s ease;
+        }
+        .tab-btn:hover {
+            background: #EBF1F5;
+            color: #7A9EB1;
+        }
+        .tab-btn.active {
+            color: #ffffff;
+            background: #7A9EB1; /* 強調色：霧霾藍 */
+            border-color: #7A9EB1;
+        }
+        /* 題目區塊 */
+        .question-box {
+            background-color: #EBF1F5; /* 主色：迷霧藍 */
+            color: #4C525C;
+            padding: 18px;
+            border-left: 5px solid #D9B4B8; /* 輔助色：藕粉色 */
+            border-radius: 6px;
+            margin-bottom: 20px;
+            font-size: 17px;
+        }
+        /* 步驟與互動區塊 */
+        .step {
+            margin-bottom: 25px;
+            padding: 18px;
+            border: 1px solid #D9B4B8; /* 輔助色：藕粉色 */
+            border-radius: 8px;
+            background-color: #ffffff;
+        }
+        .step-title {
+            font-weight: bold;
+            color: #4C525C;
+            border-bottom: 1px dashed #D9B4B8;
+            padding-bottom: 6px;
+            margin-bottom: 12px;
+            font-size: 16px;
+        }
+        .options {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+        .opt-btn {
+            padding: 10px 18px;
+            background-color: #ffffff;
+            border: 2px solid #7A9EB1; /* 強調色：霧霾藍 */
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 15px;
+            color: #4C525C;
+            font-weight: bold;
+            transition: all 0.2s ease;
+        }
+        .opt-btn:hover {
+            background-color: #EBF1F5;
+            border-color: #4C525C;
+        }
+        /* 正確與錯誤狀態回饋 */
+        .opt-btn.correct {
+            background-color: #E8F5E9; 
+            border-color: #2ECC71;
+            color: #27AE60;
+            pointer-events: none;
+        }
+        .opt-btn.wrong {
+            background-color: #FFEBEE;
+            border-color: #E74C3C;
+            color: #C0392B;
+            animation: shake 0.4s;
+        }
+        .hidden {
+            display: none;
+        }
+        /* 解答區樣式 */
+        .solution-box {
+            background-color: #4C525C; /* 次要色：靜夜灰 */
+            color: #EBF1F5; /* 主色：迷霧藍 */
+            padding: 22px;
+            border-radius: 8px;
+            margin-top: 25px;
+            box-shadow: inset 0 2px 8px rgba(0,0,0,0.15);
+        }
+        .solution-box h3 {
+            color: #D9B4B8; /* 輔助色：藕粉色 */
+            margin-top: 0;
+            border-bottom: 1px solid #7A9EB1; /* 強調色：霧霾藍 */
+            padding-bottom: 10px;
+        }
+        .v-t-graph {
+            background-color: rgba(122, 158, 177, 0.15); /* 霧霾藍透明背景襯托 */
+            padding: 15px;
+            border-radius: 6px;
+            margin-top: 15px;
+            border-left: 4px solid #D9B4B8; /* 輔助色：藕粉色 */
+        }
+        
+        @keyframes shake {
+            0% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            50% { transform: translateX(5px); }
+            75% { transform: translateX(-5px); }
+            100% { transform: translateX(0); }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>CH1-3-1 等加速度直線運動：系統化解題</h1>
+    <div class="subtitle">掌握五大變數 \( (v_0, v, a, t, \Delta x) \) 的結構</div>
+
+    <div class="tabs">
+        <button class="tab-btn active" onclick="openTab(event, 'q1')">範例 1-1 (題1)</button>
+        <button class="tab-btn" onclick="openTab(event, 'q2')">範例 1-1 (題2)</button>
+        <button class="tab-btn" onclick="openTab(event, 'q4')">範例 2-1 </button>
+        <button class="tab-btn" onclick="openTab(event, 'q5')">範例 2-2</button>
+        <button class="tab-btn" onclick="openTab(event, 'q3')">車過P點 (1/2 L)</button>
+        <button class="tab-btn" style="border-color:#D9B4B8;" onclick="openTab(event, 'q6')">🔥 挑戰: 車過P點 (1/4 L)</button>
+    </div>
+
+    <div id="q1" class="tab-content active">
+        <div class="question-box">
+            <strong>題目：</strong>初速 \( v_0 = 10 \text{ m/s} \)，等減速煞車至停止 (\( v = 0 \))，滑行位移 \( \Delta x = 3 \text{ m} \)。求所需時間 \( t \)。
+        </div>
+        <div class="step">
+            <div class="step-title">步驟一：尋找「不涉及（不給也不求）」的變數</div>
+            <p>觀察題目，哪一個變數在這個題目中完全沒有出現？</p>
+            <div class="options">
+                <button class="opt-btn" onclick="checkVar(this, 'wrong', 'q1')">初速 \( v_0 \)</button>
+                <button class="opt-btn" onclick="checkVar(this, 'wrong', 'q1')">末速 \( v \)</button>
+                <button class="opt-btn" onclick="checkVar(this, 'correct', 'q1')">加速度 \( a \)</button>
+                <button class="opt-btn" onclick="checkVar(this, 'wrong', 'q1')">時間 \( t \)</button>
+            </div>
+            <p id="q1-msg1" class="hidden" style="color: #27ae60; font-weight: bold; margin-top: 10px;">✅ 答對了！本題完全沒有提到加速度 \( a \)。</p>
+        </div>
+        <div id="q1-step2" class="step hidden">
+            <div class="step-title">步驟二：選定對應公式</div>
+            <p>既然本題「缺 \( a \)」，請選擇不含 \( a \) 的公式：</p>
+            <div class="options">
+                <button class="opt-btn" onclick="checkForm(this, 'wrong', 'q1')">\( v = v_0 + at \)</button>
+                <button class="opt-btn" onclick="checkForm(this, 'correct', 'q1')">\( \Delta x = \frac{v_0 + v}{2} \cdot t \)</button>
+                <button class="opt-btn" onclick="checkForm(this, 'wrong', 'q1')">\( v^2 = v_0^2 + 2a\Delta x \)</button>
+            </div>
+            <p id="q1-msg2" class="hidden" style="color: #27ae60; font-weight: bold; margin-top: 10px;">✅ 完美命中！直接選用此公式即可秒殺。</p>
+        </div>
+        <div id="q1-solution" class="solution-box hidden">
+            <h3>雙軌對照詳解</h3>
+            <p><strong>1. 公式解：</strong></p>
+            <p>代入已知數據：\( 3 = \frac{10 + 0}{2} \cdot t \implies 3 = 5t \implies t = 0.6 \text{ 秒} \)</p>
+            <div class="v-t-graph">
+                <strong>2. v-t 圖解 (利用三角形面積)：</strong>
+                <ul>
+                    <li><strong>幾何特徵：</strong>形成一直角三角形，高為 10，底為 \(t\)。</li>
+                    <li><strong>列式計算：</strong> \( \frac{t \times 10}{2} = 3 \implies 5t = 3 \implies t = 0.6 \text{ 秒} \)</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div id="q2" class="tab-content">
+        <div class="question-box">
+            <strong>題目：</strong>初速 \( v_0 = 5 \text{ m/s} \)，時間 \( t = 5 \text{ s} \)，末速 \( v = 35 \text{ m/s} \)。求位移 \( \Delta x \)。
+        </div>
+        <div class="step">
+            <div class="step-title">步驟一：尋找「不涉及」的變數</div>
+            <div class="options">
+                <button class="opt-btn" onclick="checkVar(this, 'wrong', 'q2')">末速 \( v \)</button>
+                <button class="opt-btn" onclick="checkVar(this, 'correct', 'q2')">加速度 \( a \)</button>
+                <button class="opt-btn" onclick="checkVar(this, 'wrong', 'q2')">時間 \( t \)</button>
+            </div>
+            <p id="q2-msg1" class="hidden" style="color: #27ae60; font-weight: bold; margin-top: 10px;">✅ 答對了！本題同樣沒有提到加速度 \( a \)。</p>
+        </div>
+        <div id="q2-step2" class="step hidden">
+            <div class="step-title">步驟二：選定對應公式</div>
+            <div class="options">
+                <button class="opt-btn" onclick="checkForm(this, 'wrong', 'q2')">\( \Delta x = vt - \frac{1}{2}at^2 \)</button>
+                <button class="opt-btn" onclick="checkForm(this, 'correct', 'q2')">\( \Delta x = \frac{v_0 + v}{2} \cdot t \)</button>
+            </div>
+            <p id="q2-msg2" class="hidden" style="color: #27ae60; font-weight: bold; margin-top: 10px;">✅ 選擇正確！</p>
+        </div>
+        <div id="q2-solution" class="solution-box hidden">
+            <h3>雙軌對照詳解</h3>
+            <p><strong>1. 公式解：</strong></p>
+            <p>\( \Delta x = \frac{5 + 35}{2} \cdot 5 = 20 \cdot 5 = 100 \text{ 公尺} \)</p>
+            <div class="v-t-graph">
+                <strong>2. v-t 圖解 (利用梯形面積)：</strong>
+                <ul>
+                    <li><strong>幾何特徵：</strong>圖形呈現正直角梯形，上底為 5，下底為 35，高為 5。</li>
+                    <li><strong>列式計算：</strong> \( \Delta x = \frac{(5 + 35) \times 5}{2} = 100 \text{ 公尺} \)</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div id="q4" class="tab-content">
+        <div class="question-box">
+            <strong>題目：</strong>物體由靜止出發 (\(v_0 = 0\))，以等加速度 \(a\) 跑完位移 \(\Delta x = s\)。求此過程的平均速度 \(\bar{v}_a\)。
+        </div>
+        <div class="step">
+            <div class="step-title">步驟一：回歸基本定義區</div>
+            <p>依據平均速度的核心定義 \(\bar{v}_a = \frac{\Delta x}{\Delta t} = \frac{s}{t}\)，本題已知位移 \(s\)，但哪一個公式中必須的關鍵物理量尚未給出，需要我們先把它導出來？</p>
+            <div class="options">
+                <button class="opt-btn" onclick="checkVar(this, 'wrong', 'q4')">末速 \( v \)</button>
+                <button class="opt-btn" onclick="checkVar(this, 'correct', 'q4')">時間 \( t \)</button>
+                <button class="opt-btn" onclick="checkVar(this, 'wrong', 'q4')">平均加速度 \( a_{\text{avg}} \)</button>
+            </div>
+            <p id="q4-msg1" class="hidden" style="color: #27ae60; font-weight: bold; margin-top: 10px;">✅ 答對了！若要回歸基本定義式計算，必須先用已知量 \((v_0, a, s)\) 導出時間 \(t\)。</p>
+        </div>
+        <div id="q4-step2" class="step hidden">
+            <div class="step-title">步驟二：選定公式求出時間 \(t\)</div>
+            <p>已知初速 \(v_0 = 0\)、等加速度 \(a\)、位移 \(s\)，應選擇哪一個運動學公式來求解時間 \(t\)？</p>
+            <div class="options">
+                <button class="opt-btn" onclick="checkForm(this, 'wrong', 'q4')">\( v = v_0 + at \)</button>
+                <button class="opt-btn" onclick="checkForm(this, 'correct', 'q4')">\( \Delta x = v_0t + \frac{1}{2}at^2 \implies s = \frac{1}{2}at^2 \)</button>
+                <button class="opt-btn" onclick="checkForm(this, 'wrong', 'q4')">\( v^2 = v_0^2 + 2a\Delta x \)</button>
+            </div>
+            <p id="q4-msg2" class="hidden" style="color: #27ae60; font-weight: bold; margin-top: 10px;">✅ 完全正確！透過位移公式，即可順利將時間 \(t\) 用 \(s\) 與 \(a\) 表達出來。</p>
+        </div>
+        <div id="q4-solution" class="solution-box hidden">
+            <h3>系統化雙軌解法演示</h3>
+            <p><strong>1. 方法一：依據「平均速度定義」計算（講義代數推導演示）：</strong></p>
+            <ul>
+                <li>根據平均速度基本定義式：\( \bar{v}_a = \frac{\Delta x}{\Delta t} = \frac{s}{t} \)</li>
+                <li>由位移公式移項求得時間 \(t\)：<br>
+                    \( s = \frac{1}{2}at^2 \implies t^2 = \frac{2s}{a} \implies t = \sqrt{\frac{2s}{a}} \)
+                </li>
+                <li>將求得的 \(t\) 帶回定義式分母，進行有理化推導：<br>
+                    \( \bar{v}_a = \frac{s}{\sqrt{\frac{2s}{a}}} = s \cdot \sqrt{\frac{a}{2s}} = \sqrt{\frac{a \cdot s^2}{2s}} = \sqrt{\frac{as}{2}} \)
+                </li>
+            </ul>
+            <div class="v-t-graph">
+                <strong>2. 方法二：利用等加速度特有性質（公式法對照）：</strong>
+                <ul>
+                    <li>先用無時間公式求出末速 \(v\)：\( v^2 = v_0^2 + 2as \implies v = \sqrt{2as} \)</li>
+                    <li>再直接代入等加直線運動特有的平均速度公式：<br>
+                        \( \bar{v}_a = \frac{v_0 + v}{2} = \frac{0 + \sqrt{2as}}{2} = \sqrt{\frac{2as}{4}} = \sqrt{\frac{as}{2}} \)
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div id="q5" class="tab-content">
+        <div class="question-box">
+            <strong>題目：</strong>物體由靜止開始運動 (\(v_0 = 0\))，\(t\) 秒內位移為 \(x\)。求位移為 \(\frac{x}{3}\) 時的瞬時速度 \(v_{\text{new}}\)。
+        </div>
+        <div class="step">
+            <div class="step-title">步驟一：尋找「不涉及」的變數</div>
+            <p>這題分兩段。第二段要求新速度 \(v_{\text{new}}\) 時（已知 \(v_0=0\)、由全程可求得之加速度 \(a\)、新位移 \(\frac{x}{3}\)），<strong>不涉及</strong>哪個變數？</p>
+            <div class="options">
+                <button class="opt-btn" onclick="checkVar(this, 'wrong', 'q5')">末速 \( v_{\text{new}} \)</button>
+                <button class="opt-btn" onclick="checkVar(this, 'correct', 'q5')">新時間 \( t_{\text{new}} \)</button>
+                <button class="opt-btn" onclick="checkVar(this, 'wrong', 'q5')">加速度 \( a \)</button>
+            </div>
+            <p id="q5-msg1" class="hidden" style="color: #27ae60; font-weight: bold; margin-top: 10px;">✅ 答對了！我們不需要知道跑到 \(\frac{x}{3}\) 花了多少時間。</p>
+        </div>
+        <div id="q5-step2" class="step hidden">
+            <div class="step-title">步驟二：選定對應公式</div>
+            <div class="options">
+                <button class="opt-btn" onclick="checkForm(this, 'correct', 'q5')">\( v_{\text{new}}^2 = v_0^2 + 2a\Delta x_{\text{new}} \)</button>
+                <button class="opt-btn" onclick="checkForm(this, 'wrong', 'q5')">\( \Delta x_{\text{new}} = \frac{v_0 + v_{\text{new}}}{2} t_{\text{new}} \)</button>
+            </div>
+            <p id="q5-msg2" class="hidden" style="color: #27ae60; font-weight: bold; margin-top: 10px;">✅ 沒錯！無時間公式是解特定位移速度的好幫手。</p>
+        </div>
+        <div id="q5-solution" class="solution-box hidden">
+            <h3>雙軌對照詳解</h3>
+            <p><strong>1. 公式解 (純代數)：</strong></p>
+            <ol>
+                <li>全程求 \(a\)：\( x = \frac{1}{2}at^2 \implies a = \frac{2x}{t^2} \)</li>
+                <li>無時間公式求新速度：\( v_{\text{new}}^2 = 0^2 + 2a(\frac{x}{3}) \)</li>
+                <li>代入 \(a\)：\( v_{\text{new}}^2 = 2(\frac{2x}{t^2})(\frac{x}{3}) = \frac{4x^2}{3t^2} \implies v_{\text{new}} = \frac{2x}{\sqrt{3}t} = \frac{2\sqrt{3}x}{3t} \)</li>
+            </ol>
+            <div class="v-t-graph">
+                <strong>2. v-t 圖解 (利用相似三角形面積比例)：⭐️ 秒殺思維</strong>
+                <p>小三角形(局部)與大三角形(全程)相似。面積比等於高(速度)的平方比：</p>
+                <p>\( \frac{\text{小面積}}{\text{大面積}} = \frac{x/3}{x} = \frac{1}{3} = \frac{v_{\text{new}}^2}{v_{\text{max}}^2} \implies v_{\text{new}} = \frac{v_{\text{max}}}{\sqrt{3}} \)</p>
+                <p>由全程面積可知 \( v_{\text{max}} = \frac{2x}{t} \)。代回得 \( v_{\text{new}} = \frac{2\sqrt{3}x}{3t} \)</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="q3" class="tab-content">
+        <div class="question-box">
+            <strong>題目：</strong>一列火車作等加速度直線運動。車頭通過 P 點時速度為 \( v \)，車尾通過 P 點時速度為 \( 3v \)。求當「車身恰有<strong>一半</strong>」通過 P 點時的瞬時速度。
+        </div>
+        <div class="step">
+            <div class="step-title">步驟一：尋找「不涉及」的變數</div>
+            <p>設全車長度為 L，位移 \( \Delta x \) 為 L 或 L/2。請觀察本題完全沒提到哪個變數？</p>
+            <div class="options">
+                <button class="opt-btn" onclick="checkVar(this, 'correct', 'q3')">時間 \( t \)</button>
+                <button class="opt-btn" onclick="checkVar(this, 'wrong', 'q3')">初速 \( v_0 \)</button>
+                <button class="opt-btn" onclick="checkVar(this, 'wrong', 'q3')">位移 \( \Delta x \)</button>
+            </div>
+            <p id="q3-msg1" class="hidden" style="color: #27ae60; font-weight: bold; margin-top: 10px;">✅ 答對了！此題完全不涉及「時間」這個概念。</p>
+        </div>
+        <div id="q3-step2" class="step hidden">
+            <div class="step-title">步驟二：選定對應公式</div>
+            <div class="options">
+                <button class="opt-btn" onclick="checkForm(this, 'wrong', 'q3')">\( \Delta x = \frac{v_0 + v}{2} \cdot t \)</button>
+                <button class="opt-btn" onclick="checkForm(this, 'correct', 'q3')">\( v^2 = v_0^2 + 2a\Delta x \)</button>
+            </div>
+            <p id="q3-msg2" class="hidden" style="color: #27ae60; font-weight: bold; margin-top: 10px;">✅ 選對了！無時間公式是解空間位移比例題的利器。</p>
+        </div>
+        <div id="q3-solution" class="solution-box hidden">
+            <h3>公式解詳解</h3>
+            <p>設全車長度為 \( L \)，等加速度為 \( a \)。</p>
+            <ol>
+                <li><strong>觀察全程 (位移 \( \Delta x = L \))：</strong><br>
+                    \( (3v)^2 = v^2 + 2aL \implies 9v^2 = v^2 + 2aL \implies aL = 4v^2 \)
+                </li>
+                <li style="margin-top: 10px;"><strong>觀察半程 (求中點速度 \( v_{\text{mid}} \)，位移 \( \Delta x = \frac{L}{2} \))：</strong><br>
+                    \( v_{\text{mid}}^2 = v^2 + 2a(\frac{L}{2}) = v^2 + aL \)
+                </li>
+                <li style="margin-top: 10px;"><strong>代入求解：</strong><br>
+                    將 \( aL = 4v^2 \) 代入：\( v_{\text{mid}}^2 = v^2 + 4v^2 = 5v^2 \implies v_{\text{mid}} = \sqrt{5}v \)
+                </li>
+            </ol>
+        </div>
+    </div>
+
+    <div id="q6" class="tab-content">
+        <div class="question-box">
+            <strong>課後驗收題：</strong>一列火車作等加速度直線運動。車頭通過 P 點時速度為 \( v \)，車尾通過 P 點時速度為 \( 3v \)。求當「車身恰有<strong> \(1/4\) </strong>」通過 P 點時的瞬時速度。
+        </div>
+        <div class="step">
+            <div class="step-title">步驟一：尋找「不涉及」的變數</div>
+            <p>通過 1/4 車身代表此時車子的局部位移為 \(\Delta x = \frac{L}{4}\)。請問本題不涉及哪一個變數？</p>
+            <div class="options">
+                <button class="opt-btn" onclick="checkVar(this, 'wrong', 'q6')">加速度 \( a \)</button>
+                <button class="opt-btn" onclick="checkVar(this, 'correct', 'q6')">時間 \( t \)</button>
+                <button class="opt-btn" onclick="checkVar(this, 'wrong', 'q6')">位移 \( \Delta x \)</button>
+            </div>
+            <p id="q6-msg1" class="hidden" style="color: #27ae60; font-weight: bold; margin-top: 10px;">✅ 答對了！純長度比例的轉換，依然是鎖定缺時間 \(t\) 的公式。</p>
+        </div>
+        <div id="q6-step2" class="step hidden">
+            <div class="step-title">步驟二：選定對應公式</div>
+            <div class="options">
+                <button class="opt-btn" onclick="checkForm(this, 'correct', 'q6')">\( v^2 = v_0^2 + 2a\Delta x \)</button>
+                <button class="opt-btn" onclick="checkForm(this, 'wrong', 'q6')">\( \Delta x = v_0t + \frac{1}{2}at^2 \)</button>
+            </div>
+            <p id="q6-msg2" class="hidden" style="color: #27ae60; font-weight: bold; margin-top: 10px;">✅ 沒錯！馬上來推導看看改為 1/4 L 之後的驚奇解答。</p>
+        </div>
+        <div id="q6-solution" class="solution-box hidden">
+            <h3>公式解詳解</h3>
+            <p>設全車長度為 \( L \)，等加速度為 \( a \)。</p>
+            <ol>
+                <li><strong>觀察全程 (車頭到車尾通過，位移 \( \Delta x = L \))：</strong><br>
+                    初速為 \(v\)，末速為 \(3v\)，代入公式：<br>
+                    \( (3v)^2 = v^2 + 2aL \implies 9v^2 = v^2 + 2aL \implies 2aL = 8v^2 \implies aL = 4v^2 \)
+                </li>
+                <li style="margin-top: 10px;"><strong>觀察前 \(1/4\) 程 (位移 \( \Delta x = \frac{L}{4} \))：</strong><br>
+                    設此時火車通過 P 點的瞬時速度為 \( v_{1/4} \)：<br>
+                    \( v_{1/4}^2 = v^2 + 2a(\frac{L}{4}) \implies v_{1/4}^2 = v^2 + \frac{1}{2}(aL) \)
+                </li>
+                <li style="margin-top: 10px;"><strong>將全程關係式帶入求解：</strong><br>
+                    將第一步得到的整體常數 \( aL = 4v^2 \) 替換代入：<br>
+                    \( v_{1/4}^2 = v^2 + \frac{1}{2}(4v^2) = v^2 + 2v^2 = 3v^2 \)
+                    <br><br>
+                    等號兩邊同時開根號，求得驚奇完美的答案：<br>
+                    <strong>\( v_{1/4} = \sqrt{3}v \)</strong>
+                </li>
+            </ol>
+            <div class="v-t-graph">
+                💡 <strong>破題體會：</strong> 改成 \(1/4\ L\) 之後算出來的答案是 **\(\sqrt{3}v\)**，非常對稱且漂亮！這完美示範了「整體常數 \(aL\) 代換法」的威力，無論題目改成幾分之幾，學生都能一眼看穿。
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    // 頁籤切換邏輯
+    function openTab(evt, tabId) {
+        let i, tabcontent, tablinks;
+        tabcontent = document.getElementsByClassName("tab-content");
+        for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].style.display = "none";
+            tabcontent[i].classList.remove("active");
+        }
+        tablinks = document.getElementsByClassName("tab-btn");
+        for (i = 0; i < tablinks.length; i++) {
+            tablinks[i].classList.remove("active");
+        }
+        document.getElementById(tabId).style.display = "block";
+        document.getElementById(tabId).classList.add("active");
+        evt.currentTarget.classList.add("active");
+    }
+
+    // 驗證變數選擇
+    function checkVar(btn, status, qId) {
+        if (status === 'correct') {
+            btn.classList.add('correct');
+            document.getElementById(qId + '-msg1').style.display = 'block';
+            document.getElementById(qId + '-step2').style.display = 'block';
+            let siblings = btn.parentElement.children;
+            for(let opt of siblings) { opt.style.pointerEvents = 'none'; }
+        } else {
+            btn.classList.add('wrong');
+            setTimeout(() => btn.classList.remove('wrong'), 400);
+        }
+    }
+
+    // 驗證公式選擇
+    function checkForm(btn, status, qId) {
+        if (status === 'correct') {
+            btn.classList.add('correct');
+            document.getElementById(qId + '-msg2').style.display = 'block';
+            document.getElementById(qId + '-solution').style.display = 'block';
+            
+            if(window.MathJax) { MathJax.typesetPromise(); }
+
+            let siblings = btn.parentElement.children;
+            for(let opt of siblings) { opt.style.pointerEvents = 'none'; }
+        } else {
+            btn.classList.add('wrong');
+            setTimeout(() => btn.classList.remove('wrong'), 400);
+        }
+    }
+</script>
+
+</body>
+</html>
