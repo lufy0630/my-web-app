@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ch1-3-1 等加速度直線運動：公式解路徑</title>
+    <title>等加速度直線運動：破題練習</title>
     <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <style>
@@ -127,7 +127,7 @@
             animation: shake 0.4s;
         }
         
-        /* 確保隱藏屬性不被外部或框架樣式覆蓋 */
+        /* 隱藏區塊與 important */
         .hidden {
             display: none !important;
         }
@@ -167,21 +167,70 @@
 <body>
 
 <div class="container">
-    <h1>ch1-3-1 等加公式解題路徑</h1>
-    <div class="subtitle">掌握五大變數 \( (v_0, v, a, t, \Delta x) \) 的選定策略，建立物理直覺！</div>
+    <h1>ch1-3-1 等加運動：從「已知」走，或觀察「沒有」</h1>
+    <div class="subtitle">先複習上課教的基礎：從「已知指向所求」的選法，再練習另一種判定法找出題目中「沒有出現的變數」來選公式！</div>
 
     <div class="tabs">
-        <button class="tab-btn active" onclick="openTab(event, 'q1')">範例 1-1 (題1)</button>
+        <button class="tab-btn active" onclick="openTab(event, 'q4')">範例 2-1 (已知指向法)</button>
+        <button class="tab-btn" onclick="openTab(event, 'q1')">範例 1-1 (題1)</button>
         <button class="tab-btn" onclick="openTab(event, 'q2')">範例 1-1 (題2)</button>
-        <button class="tab-btn" onclick="openTab(event, 'q4')">範例 2-1 (定義法)</button>
         <button class="tab-btn" onclick="openTab(event, 'q5')">範例 2-2</button>
         <button class="tab-btn" onclick="openTab(event, 'q3')">車過P點 (1/2 L)</button>
         <button class="tab-btn" style="border-color:#D9B4B8;" onclick="openTab(event, 'q6')">🔥 挑戰: 車過P點 (1/4 L)</button>
     </div>
 
-    <div id="q1" class="tab-content active">
+    <div id="q4" class="tab-content active">
         <div class="question-box">
-            <strong>題目：</strong>初速 \( v_0 = 10 \text{ m/s} \)，等減速煞車至停止 (\( v = 0 \))，滑行位移 \( \Delta x = 3 \text{ m} \). 求所需時間 \( t \)。
+            <strong>題目：</strong>物體由靜止出發 (\(v_0 = 0\))，以等加速度 \(a\) 跑完位移 \(\Delta x = s\)。求此過程的平均速度 \(\bar{v}_a\)。
+        </div>
+        <div class="step">
+            <div class="step-title">步驟一：觀察所求（複習）</div>
+            <p>依據平均速度的核心定義 \(\bar{v}_a = \frac{\Delta x}{\Delta t} = \frac{s}{t}\)，本題已知位移 \(s\)，但哪一個物理量題目尚未給出，需要我們先解出來？</p>
+            <div class="options">
+                <button class="opt-btn" onclick="checkVar(this, 'wrong', 'q4')">末速 \( v \)</button>
+                <button class="opt-btn" onclick="checkVar(this, 'correct', 'q4')">時間 \( t \)</button>
+                <button class="opt-btn" onclick="checkVar(this, 'wrong', 'q4')">加速度 \( a \)</button>
+            </div>
+            <p id="q4-msg1" class="hidden" style="color: #27ae60; font-weight: bold; margin-top: 10px;">✅ 答對了！先用已知量 \((v_0, a, s)\) 求出時間 \(t\)。</p>
+        </div>
+        <div id="q4-step2" class="step hidden">
+            <div class="step-title">步驟二：已知指向所求（複習） \(t\)</div>
+            <p>已知初速 \(v_0 = 0\)、等加速度 \(a\)、位移 \(s\)，請自四大公式中選擇正確公式來解 \(t\)：</p>
+            <div class="options">
+                <button class="opt-btn" onclick="checkForm(this, 'wrong', 'q4')">\( v = v_0 + at \)</button>
+                <button class="opt-btn" onclick="checkForm(this, 'correct', 'q4')">\( \Delta x = v_0t + \frac{1}{2}at^2 \)</button>
+                <button class="opt-btn" onclick="checkForm(this, 'wrong', 'q4')">\( v^2 = v_0^2 + 2a\Delta x \)</button>
+                <button class="opt-btn" onclick="checkForm(this, 'wrong', 'q4')">\( \Delta x = \frac{v_0 + v}{2} \cdot t \)</button>
+            </div>
+            <p id="q4-msg2" class="hidden" style="color: #27ae60; font-weight: bold; margin-top: 10px;">✅ 完全正確！透過位移公式，即可順利將時間 \(t\) 用 \(s\) 與 \(a\) 表達出來。</p>
+        </div>
+        <div id="q4-solution" class="solution-box hidden">
+            <h3>系統化雙軌解法演示</h3>
+            <p><strong>1. 方法一：依據「平均速度定義」計算（講義代數推導演示）：</strong></p>
+            <ul>
+                <li>根據平均速度基本定義式：\( \bar{v}_a = \frac{\Delta x}{\Delta t} = \frac{s}{t} \)</li>
+                <li>由位移公式移項求得時間 \(t\)：<br>
+                    \( s = \frac{1}{2}at^2 \implies t^2 = \frac{2s}{a} \implies t = \sqrt{\frac{2s}{a}} \)
+                </li>
+                <li>將求得的 \(t\) 帶回定義式分母，進行有理化推導：<br>
+                    \( \bar{v}_a = \frac{s}{\sqrt{\frac{2s}{a}}} = s \cdot \sqrt{\frac{a}{2s}} = \sqrt{\frac{a \cdot s^2}{2s}} = \sqrt{\frac{as}{2}} \)
+                </li>
+            </ul>
+            <div class="v-t-graph">
+                <strong>2. 方法二：利用等加速度特有性質（公式法對照）：</strong>
+                <ul>
+                    <li>先用無時間公式求出末速 \(v\)：\( v^2 = v_0^2 + 2as \implies v = \sqrt{2as} \)</li>
+                    <li>再直接代入等加直線運動特有的平均速度公式：<br>
+                        \( \bar{v}_a = \frac{v_0 + v}{2} = \frac{0 + \sqrt{2as}}{2} = \sqrt{\frac{2as}{4}} = \sqrt{\frac{as}{2}} \)
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div id="q1" class="tab-content">
+        <div class="question-box">
+            <strong>題目：</strong>初速 \( v_0 = 10 \text{m/s} \)  ，等減速煞車至停止 (\( v = 0 \))，滑行位移 \( \Delta x = 3 \text{ m} \)。求所需時間 \( t \)。
         </div>
         <div class="step">
             <div class="step-title">步驟一：尋找「不涉及（不給也不求）」的變數</div>
@@ -196,11 +245,11 @@
         </div>
         <div id="q1-step2" class="step hidden">
             <div class="step-title">步驟二：選定對應公式</div>
-            <p>既然本題「缺 \( a \)」，請自下方完整公式庫中，選擇正確的對應公式：</p>
+            <p>既然本題「缺 \( a \)」且是減速過程，請自四大公式庫中選出正確的公式：</p>
             <div class="options">
-                <button class="opt-btn" onclick="checkForm(this, 'wrong', 'q1')">\( v = v_0 + at \)</button>
-                <button class="opt-btn" onclick="checkForm(this, 'wrong', 'q1')">\( \Delta x = v_0t + \frac{1}{2}at^2 \)</button>
-                <button class="opt-btn" onclick="checkForm(this, 'wrong', 'q1')">\( v^2 = v_0^2 + 2a\Delta x \)</button>
+                <button class="opt-btn" onclick="checkForm(this, 'wrong', 'q1')">\( v = v_0 - at \)</button>
+                <button class="opt-btn" onclick="checkForm(this, 'wrong', 'q1')">\( \Delta x = v_0t - \frac{1}{2}at^2 \)</button>
+                <button class="opt-btn" onclick="checkForm(this, 'wrong', 'q1')">\( v^2 = v_0^2 - 2a\Delta x \)</button>
                 <button class="opt-btn" onclick="checkForm(this, 'correct', 'q1')">\( \Delta x = \frac{v_0 + v}{2} \cdot t \)</button>
             </div>
             <p id="q1-msg2" class="hidden" style="color: #27ae60; font-weight: bold; margin-top: 10px;">✅ 完美命中！直接選用此公式即可秒殺。</p>
@@ -234,7 +283,7 @@
         </div>
         <div id="q2-step2" class="step hidden">
             <div class="step-title">步驟二：選定對應公式</div>
-            <p>本題「缺 \( a \)」，請自下方完整公式庫中，選擇正確的對應公式：</p>
+            <p>本題「缺 \( a \)」且為加速，請自四大公式庫中，選擇正確的對應公式：</p>
             <div class="options">
                 <button class="opt-btn" onclick="checkForm(this, 'wrong', 'q2')">\( v = v_0 + at \)</button>
                 <button class="opt-btn" onclick="checkForm(this, 'wrong', 'q2')">\( \Delta x = v_0t + \frac{1}{2}at^2 \)</button>
@@ -246,61 +295,12 @@
         <div id="q2-solution" class="solution-box hidden">
             <h3>雙軌對照詳解</h3>
             <p><strong>1. 公式解：</strong></p>
-            <p>\( \Delta x = \frac{5 + 35}{2} \cdot 5 = 20 \cdot 5 = 100 \text{ 公尺} \)</p>
+            <p>\( \Delta x = \frac{5 + 35}{2} \cdot 5 = 20 \cdot 5 = 100 \text; 公尺} \)</p>
             <div class="v-t-graph">
                 <strong>2. v-t 圖解 (利用梯形面積)：</strong>
                 <ul>
                     <li><strong>幾何特徵：</strong>圖形呈現正直角梯形，上底為 5，下底為 35，高為 5。</li>
                     <li><strong>列式計算：</strong> \( \Delta x = \frac{(5 + 35) \times 5}{2} = 100 \text{ 公尺} \)</li>
-                </ul>
-            </div>
-        </div>
-    </div>
-
-    <div id="q4" class="tab-content">
-        <div class="question-box">
-            <strong>題目：</strong>物體由靜止出發 (\(v_0 = 0\))，以等加速度 \(a\) 跑完位移 \(\Delta x = s\)。求此過程的平均速度 \(\bar{v}_a\)。
-        </div>
-        <div class="step">
-            <div class="step-title">步驟一：回歸基本定義區</div>
-            <p>依據平均速度的核心定義 \(\bar{v}_a = \frac{\Delta x}{\Delta t} = \frac{s}{t}\)，本題已知位移 \(s\)，但哪一個公式中必須的關鍵物理量尚未給出，需要我們先把它導出來？</p>
-            <div class="options">
-                <button class="opt-btn" onclick="checkVar(this, 'wrong', 'q4')">末速 \( v \)</button>
-                <button class="opt-btn" onclick="checkVar(this, 'correct', 'q4')">時間 \( t \)</button>
-                <button class="opt-btn" onclick="checkVar(this, 'wrong', 'q4')">平均加速度 \( a_{\text{avg}} \)</button>
-            </div>
-            <p id="q4-msg1" class="hidden" style="color: #27ae60; font-weight: bold; margin-top: 10px;">✅ 答對了！若要回歸基本定義式計算，必須先用已知量 \((v_0, a, s)\) 導出時間 \(t\)。</p>
-        </div>
-        <div id="q4-step2" class="step hidden">
-            <div class="step-title">步驟二：選定公式求出時間 \(t\)</div>
-            <p>已知初速 \(v_0 = 0\)、等加速度 \(a\)、位移 \(s\)，應選擇哪一個公式來求解時間 \(t\)？</p>
-            <div class="options">
-                <button class="opt-btn" onclick="checkForm(this, 'wrong', 'q4')">\( v = v_0 + at \)</button>
-                <button class="opt-btn" onclick="checkForm(this, 'correct', 'q4')">\( \Delta x = v_0t + \frac{1}{2}at^2 \)</button>
-                <button class="opt-btn" onclick="checkForm(this, 'wrong', 'q4')">\( v^2 = v_0^2 + 2a\Delta x \)</button>
-                <button class="opt-btn" onclick="checkForm(this, 'wrong', 'q4')">\( \Delta x = \frac{v_0 + v}{2} \cdot t \)</button>
-            </div>
-            <p id="q4-msg2" class="hidden" style="color: #27ae60; font-weight: bold; margin-top: 10px;">✅ 完全正確！透過位移公式（此處即 \(s = \frac{1}{2}at^2\)），即可順利將時間 \(t\) 導出。</p>
-        </div>
-        <div id="q4-solution" class="solution-box hidden">
-            <h3>系統化雙軌解法演示</h3>
-            <p><strong>1. 方法一：依據「平均速度定義」計算（講義代數推導演示）：</strong></p>
-            <ul>
-                <li>根據平均速度基本定義式：\( \bar{v}_a = \frac{\Delta x}{\Delta t} = \frac{s}{t} \)</li>
-                <li>由位移公式移項求得時間 \(t\)：<br>
-                    \( s = \frac{1}{2}at^2 \implies t^2 = \frac{2s}{a} \implies t = \sqrt{\frac{2s}{a}} \)
-                </li>
-                <li>將求得的 \(t\) 帶回定義式分母，進行有理化推導：<br>
-                    \( \bar{v}_a = \frac{s}{\sqrt{\frac{2s}{a}}} = s \cdot \sqrt{\frac{a}{2s}} = \sqrt{\frac{a \cdot s^2}{2s}} = \sqrt{\frac{as}{2}} \)
-                </li>
-            </ul>
-            <div class="v-t-graph">
-                <strong>2. 方法二：利用等加速度特有性質（公式法對照）：</strong>
-                <ul>
-                    <li>先用無時間公式求出末速 \(v\)：\( v^2 = v_0^2 + 2as \implies v = \sqrt{2as} \)</li>
-                    <li>再直接代入等加直線運動特有的平均速度公式：<br>
-                        \( \bar{v}_a = \frac{v_0 + v}{2} = \frac{0 + \sqrt{2as}}{2} = \sqrt{\frac{2as}{4}} = \sqrt{\frac{as}{2}} \)
-                    </li>
                 </ul>
             </div>
         </div>
@@ -322,7 +322,7 @@
         </div>
         <div id="q5-step2" class="step hidden">
             <div class="step-title">步驟二：選定對應公式</div>
-            <p>既然第二段缺乏時間量，請自下方完整公式庫中，選擇正確的對應公式：</p>
+            <p>既然第二段缺乏時間量，請自四大公式中選擇正確公式：</p>
             <div class="options">
                 <button class="opt-btn" onclick="checkForm(this, 'wrong', 'q5')">\( v = v_0 + at \)</button>
                 <button class="opt-btn" onclick="checkForm(this, 'wrong', 'q5')">\( \Delta x = v_0t + \frac{1}{2}at^2 \)</button>
@@ -364,7 +364,7 @@
         </div>
         <div id="q3-step2" class="step hidden">
             <div class="step-title">步驟二：選定對應公式</div>
-            <p>既然本題缺乏時間變數，請自下方完整公式庫中，選擇正確的對應公式：</p>
+            <p>既然本題缺乏時間變數，請自四大公式中選擇正確的對應公式：</p>
             <div class="options">
                 <button class="opt-btn" onclick="checkForm(this, 'wrong', 'q3')">\( v = v_0 + at \)</button>
                 <button class="opt-btn" onclick="checkForm(this, 'wrong', 'q3')">\( \Delta x = v_0t + \frac{1}{2}at^2 \)</button>
@@ -392,7 +392,7 @@
 
     <div id="q6" class="tab-content">
         <div class="question-box">
-            <strong>🔥 進階挑戰：</strong>一列火車作等加速度直線運動。車頭通過 P 點時速度為 \( v \)，車尾通過 P 點時速度為 \( 3v \)。求當「車身恰有<strong> \(1/4\) </strong>」通過 P 點時的瞬時速度。
+            <strong> 進階挑戰：</strong>一列火車作等加速度直線運動。車頭通過 P 點時速度為 \( v \)，車尾通過 P 點時速度為 \( 3v \)。求當「車身恰有<strong> \(1/4\) </strong>」通過 P 點時的瞬時速度。
         </div>
         <div class="step">
             <div class="step-title">步驟一：尋找「不涉及」的變數</div>
@@ -406,7 +406,7 @@
         </div>
         <div id="q6-step2" class="step hidden">
             <div class="step-title">步驟二：選定對應公式</div>
-            <p>請自下方完整公式庫中，挑選出最適合處理「純空間位移比例」的經典公式：</p>
+            <p>請自下方完整公式庫中，挑選出最適合處理「純空間位移」的公式：</p>
             <div class="options">
                 <button class="opt-btn" onclick="checkForm(this, 'wrong', 'q6')">\( v = v_0 + at \)</button>
                 <button class="opt-btn" onclick="checkForm(this, 'wrong', 'q6')">\( \Delta x = v_0t + \frac{1}{2}at^2 \)</button>
@@ -461,12 +461,12 @@
         evt.currentTarget.classList.add("active");
     }
 
-    // 驗證變數選擇
+    // 驗證變數選擇邏輯
     function checkVar(btn, status, qId) {
         if (status === 'correct') {
             btn.classList.add('correct');
-            document.getElementById(qId + '-msg1').style.display = 'block';
-            document.getElementById(qId + '-step2').style.display = 'block';
+            document.getElementById(qId + '-msg1').classList.remove('hidden');
+            document.getElementById(qId + '-step2').classList.remove('hidden');
             let siblings = btn.parentElement.children;
             for(let opt of siblings) { opt.style.pointerEvents = 'none'; }
         } else {
@@ -475,12 +475,12 @@
         }
     }
 
-    // 驗證公式選擇
+    // 驗證公式選擇邏輯
     function checkForm(btn, status, qId) {
         if (status === 'correct') {
             btn.classList.add('correct');
-            document.getElementById(qId + '-msg2').style.display = 'block';
-            document.getElementById(qId + '-solution').style.display = 'block';
+            document.getElementById(qId + '-msg2').classList.remove('hidden');
+            document.getElementById(qId + '-solution').classList.remove('hidden');
             
             if(window.MathJax) { MathJax.typesetPromise(); }
 
