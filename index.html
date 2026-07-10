@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>等加速度直線運動：破題特訓</title>
+    <title>ch1-3-1 等加速度直線運動：公式解路徑</title>
     <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <style>
@@ -126,9 +126,12 @@
             color: #C0392B;
             animation: shake 0.4s;
         }
+        
+        /* 確保隱藏屬性不被外部或框架樣式覆蓋 */
         .hidden {
-            display: none;
+            display: none !important;
         }
+        
         /* 解答區樣式 */
         .solution-box {
             background-color: #4C525C; /* 次要色：靜夜灰 */
@@ -164,13 +167,13 @@
 <body>
 
 <div class="container">
-    <h1>CH1-3-1 等加速度直線運動：系統化解題</h1>
-    <div class="subtitle">掌握五大變數 \( (v_0, v, a, t, \Delta x) \) 的結構</div>
+    <h1>ch1-3-1 等加公式解題路徑</h1>
+    <div class="subtitle">掌握五大變數 \( (v_0, v, a, t, \Delta x) \) 的選定策略，建立物理直覺！</div>
 
     <div class="tabs">
         <button class="tab-btn active" onclick="openTab(event, 'q1')">範例 1-1 (題1)</button>
         <button class="tab-btn" onclick="openTab(event, 'q2')">範例 1-1 (題2)</button>
-        <button class="tab-btn" onclick="openTab(event, 'q4')">範例 2-1 </button>
+        <button class="tab-btn" onclick="openTab(event, 'q4')">範例 2-1 (定義法)</button>
         <button class="tab-btn" onclick="openTab(event, 'q5')">範例 2-2</button>
         <button class="tab-btn" onclick="openTab(event, 'q3')">車過P點 (1/2 L)</button>
         <button class="tab-btn" style="border-color:#D9B4B8;" onclick="openTab(event, 'q6')">🔥 挑戰: 車過P點 (1/4 L)</button>
@@ -178,7 +181,7 @@
 
     <div id="q1" class="tab-content active">
         <div class="question-box">
-            <strong>題目：</strong>初速 \( v_0 = 10 \text{ m/s} \)，等減速煞車至停止 (\( v = 0 \))，滑行位移 \( \Delta x = 3 \text{ m} \)。求所需時間 \( t \)。
+            <strong>題目：</strong>初速 \( v_0 = 10 \text{ m/s} \)，等減速煞車至停止 (\( v = 0 \))，滑行位移 \( \Delta x = 3 \text{ m} \). 求所需時間 \( t \)。
         </div>
         <div class="step">
             <div class="step-title">步驟一：尋找「不涉及（不給也不求）」的變數</div>
@@ -193,11 +196,12 @@
         </div>
         <div id="q1-step2" class="step hidden">
             <div class="step-title">步驟二：選定對應公式</div>
-            <p>既然本題「缺 \( a \)」，請選擇不含 \( a \) 的公式：</p>
+            <p>既然本題「缺 \( a \)」，請自下方完整公式庫中，選擇正確的對應公式：</p>
             <div class="options">
                 <button class="opt-btn" onclick="checkForm(this, 'wrong', 'q1')">\( v = v_0 + at \)</button>
-                <button class="opt-btn" onclick="checkForm(this, 'correct', 'q1')">\( \Delta x = \frac{v_0 + v}{2} \cdot t \)</button>
+                <button class="opt-btn" onclick="checkForm(this, 'wrong', 'q1')">\( \Delta x = v_0t + \frac{1}{2}at^2 \)</button>
                 <button class="opt-btn" onclick="checkForm(this, 'wrong', 'q1')">\( v^2 = v_0^2 + 2a\Delta x \)</button>
+                <button class="opt-btn" onclick="checkForm(this, 'correct', 'q1')">\( \Delta x = \frac{v_0 + v}{2} \cdot t \)</button>
             </div>
             <p id="q1-msg2" class="hidden" style="color: #27ae60; font-weight: bold; margin-top: 10px;">✅ 完美命中！直接選用此公式即可秒殺。</p>
         </div>
@@ -230,8 +234,11 @@
         </div>
         <div id="q2-step2" class="step hidden">
             <div class="step-title">步驟二：選定對應公式</div>
+            <p>本題「缺 \( a \)」，請自下方完整公式庫中，選擇正確的對應公式：</p>
             <div class="options">
-                <button class="opt-btn" onclick="checkForm(this, 'wrong', 'q2')">\( \Delta x = vt - \frac{1}{2}at^2 \)</button>
+                <button class="opt-btn" onclick="checkForm(this, 'wrong', 'q2')">\( v = v_0 + at \)</button>
+                <button class="opt-btn" onclick="checkForm(this, 'wrong', 'q2')">\( \Delta x = v_0t + \frac{1}{2}at^2 \)</button>
+                <button class="opt-btn" onclick="checkForm(this, 'wrong', 'q2')">\( v^2 = v_0^2 + 2a\Delta x \)</button>
                 <button class="opt-btn" onclick="checkForm(this, 'correct', 'q2')">\( \Delta x = \frac{v_0 + v}{2} \cdot t \)</button>
             </div>
             <p id="q2-msg2" class="hidden" style="color: #27ae60; font-weight: bold; margin-top: 10px;">✅ 選擇正確！</p>
@@ -266,13 +273,14 @@
         </div>
         <div id="q4-step2" class="step hidden">
             <div class="step-title">步驟二：選定公式求出時間 \(t\)</div>
-            <p>已知初速 \(v_0 = 0\)、等加速度 \(a\)、位移 \(s\)，應選擇哪一個運動學公式來求解時間 \(t\)？</p>
+            <p>已知初速 \(v_0 = 0\)、等加速度 \(a\)、位移 \(s\)，應選擇哪一個公式來求解時間 \(t\)？</p>
             <div class="options">
                 <button class="opt-btn" onclick="checkForm(this, 'wrong', 'q4')">\( v = v_0 + at \)</button>
-                <button class="opt-btn" onclick="checkForm(this, 'correct', 'q4')">\( \Delta x = v_0t + \frac{1}{2}at^2 \implies s = \frac{1}{2}at^2 \)</button>
+                <button class="opt-btn" onclick="checkForm(this, 'correct', 'q4')">\( \Delta x = v_0t + \frac{1}{2}at^2 \)</button>
                 <button class="opt-btn" onclick="checkForm(this, 'wrong', 'q4')">\( v^2 = v_0^2 + 2a\Delta x \)</button>
+                <button class="opt-btn" onclick="checkForm(this, 'wrong', 'q4')">\( \Delta x = \frac{v_0 + v}{2} \cdot t \)</button>
             </div>
-            <p id="q4-msg2" class="hidden" style="color: #27ae60; font-weight: bold; margin-top: 10px;">✅ 完全正確！透過位移公式，即可順利將時間 \(t\) 用 \(s\) 與 \(a\) 表達出來。</p>
+            <p id="q4-msg2" class="hidden" style="color: #27ae60; font-weight: bold; margin-top: 10px;">✅ 完全正確！透過位移公式（此處即 \(s = \frac{1}{2}at^2\)），即可順利將時間 \(t\) 導出。</p>
         </div>
         <div id="q4-solution" class="solution-box hidden">
             <h3>系統化雙軌解法演示</h3>
@@ -314,9 +322,12 @@
         </div>
         <div id="q5-step2" class="step hidden">
             <div class="step-title">步驟二：選定對應公式</div>
+            <p>既然第二段缺乏時間量，請自下方完整公式庫中，選擇正確的對應公式：</p>
             <div class="options">
-                <button class="opt-btn" onclick="checkForm(this, 'correct', 'q5')">\( v_{\text{new}}^2 = v_0^2 + 2a\Delta x_{\text{new}} \)</button>
-                <button class="opt-btn" onclick="checkForm(this, 'wrong', 'q5')">\( \Delta x_{\text{new}} = \frac{v_0 + v_{\text{new}}}{2} t_{\text{new}} \)</button>
+                <button class="opt-btn" onclick="checkForm(this, 'wrong', 'q5')">\( v = v_0 + at \)</button>
+                <button class="opt-btn" onclick="checkForm(this, 'wrong', 'q5')">\( \Delta x = v_0t + \frac{1}{2}at^2 \)</button>
+                <button class="opt-btn" onclick="checkForm(this, 'correct', 'q5')">\( v^2 = v_0^2 + 2a\Delta x \)</button>
+                <button class="opt-btn" onclick="checkForm(this, 'wrong', 'q5')">\( \Delta x = \frac{v_0 + v}{2} \cdot t \)</button>
             </div>
             <p id="q5-msg2" class="hidden" style="color: #27ae60; font-weight: bold; margin-top: 10px;">✅ 沒錯！無時間公式是解特定位移速度的好幫手。</p>
         </div>
@@ -353,9 +364,12 @@
         </div>
         <div id="q3-step2" class="step hidden">
             <div class="step-title">步驟二：選定對應公式</div>
+            <p>既然本題缺乏時間變數，請自下方完整公式庫中，選擇正確的對應公式：</p>
             <div class="options">
-                <button class="opt-btn" onclick="checkForm(this, 'wrong', 'q3')">\( \Delta x = \frac{v_0 + v}{2} \cdot t \)</button>
+                <button class="opt-btn" onclick="checkForm(this, 'wrong', 'q3')">\( v = v_0 + at \)</button>
+                <button class="opt-btn" onclick="checkForm(this, 'wrong', 'q3')">\( \Delta x = v_0t + \frac{1}{2}at^2 \)</button>
                 <button class="opt-btn" onclick="checkForm(this, 'correct', 'q3')">\( v^2 = v_0^2 + 2a\Delta x \)</button>
+                <button class="opt-btn" onclick="checkForm(this, 'wrong', 'q3')">\( \Delta x = \frac{v_0 + v}{2} \cdot t \)</button>
             </div>
             <p id="q3-msg2" class="hidden" style="color: #27ae60; font-weight: bold; margin-top: 10px;">✅ 選對了！無時間公式是解空間位移比例題的利器。</p>
         </div>
@@ -378,7 +392,7 @@
 
     <div id="q6" class="tab-content">
         <div class="question-box">
-            <strong>課後驗收題：</strong>一列火車作等加速度直線運動。車頭通過 P 點時速度為 \( v \)，車尾通過 P 點時速度為 \( 3v \)。求當「車身恰有<strong> \(1/4\) </strong>」通過 P 點時的瞬時速度。
+            <strong>🔥 進階挑戰：</strong>一列火車作等加速度直線運動。車頭通過 P 點時速度為 \( v \)，車尾通過 P 點時速度為 \( 3v \)。求當「車身恰有<strong> \(1/4\) </strong>」通過 P 點時的瞬時速度。
         </div>
         <div class="step">
             <div class="step-title">步驟一：尋找「不涉及」的變數</div>
@@ -392,9 +406,12 @@
         </div>
         <div id="q6-step2" class="step hidden">
             <div class="step-title">步驟二：選定對應公式</div>
+            <p>請自下方完整公式庫中，挑選出最適合處理「純空間位移比例」的經典公式：</p>
             <div class="options">
-                <button class="opt-btn" onclick="checkForm(this, 'correct', 'q6')">\( v^2 = v_0^2 + 2a\Delta x \)</button>
+                <button class="opt-btn" onclick="checkForm(this, 'wrong', 'q6')">\( v = v_0 + at \)</button>
                 <button class="opt-btn" onclick="checkForm(this, 'wrong', 'q6')">\( \Delta x = v_0t + \frac{1}{2}at^2 \)</button>
+                <button class="opt-btn" onclick="checkForm(this, 'correct', 'q6')">\( v^2 = v_0^2 + 2a\Delta x \)</button>
+                <button class="opt-btn" onclick="checkForm(this, 'wrong', 'q6')">\( \Delta x = \frac{v_0 + v}{2} \cdot t \)</button>
             </div>
             <p id="q6-msg2" class="hidden" style="color: #27ae60; font-weight: bold; margin-top: 10px;">✅ 沒錯！馬上來推導看看改為 1/4 L 之後的驚奇解答。</p>
         </div>
