@@ -7,6 +7,11 @@
     <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <style>
+        /* 基礎重置與響應式設定 */
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+        
         /* 整體視覺配色套用 */
         body {
             background-color: #EBF1F5; /* 主色：迷霧藍 */
@@ -17,6 +22,7 @@
             padding: 20px;
         }
         .container {
+            width: 100%;
             max-width: 850px;
             margin: auto;
             background: #ffffff;
@@ -29,28 +35,32 @@
             text-align: center;
             color: #4C525C;
             margin-bottom: 5px;
+            font-size: clamp(1.5rem, 4vw, 2rem); /* 動態標題大小 */
         }
         .subtitle {
             text-align: center;
             color: #7A9EB1; /* 強調色：霧霾藍 */
             margin-bottom: 25px;
-            font-size: 15px;
+            font-size: clamp(14px, 3vw, 15px);
             font-weight: 500;
         }
-        /* 頁籤樣式優化 */
+        
+        /* 頁籤樣式優化 - 彈性網格配置 */
         .tabs {
             display: flex;
             flex-wrap: wrap;
-            gap: 6px;
+            gap: 8px;
             margin-bottom: 25px;
             border-bottom: 2px solid #EBF1F5;
-            padding-bottom: 8px;
+            padding-bottom: 12px;
         }
         .tab-btn {
+            flex: 1 1 auto; /* 讓按鈕根據空間彈性伸展 */
+            text-align: center;
             background: #ffffff;
             border: 1px solid #7A9EB1; /* 強調色：霧霾藍 */
             border-radius: 6px;
-            padding: 8px 14px;
+            padding: 10px 14px;
             cursor: pointer;
             font-size: 14px;
             font-weight: bold;
@@ -66,6 +76,7 @@
             background: #7A9EB1; /* 強調色：霧霾藍 */
             border-color: #7A9EB1;
         }
+        
         /* 題目區塊 */
         .question-box {
             background-color: #EBF1F5; /* 主色：迷霧藍 */
@@ -74,8 +85,9 @@
             border-left: 5px solid #D9B4B8; /* 輔助色：藕粉色 */
             border-radius: 6px;
             margin-bottom: 20px;
-            font-size: 17px;
+            font-size: clamp(15px, 3.5vw, 17px);
         }
+        
         /* 步驟與互動區塊 */
         .step {
             margin-bottom: 25px;
@@ -92,6 +104,8 @@
             margin-bottom: 12px;
             font-size: 16px;
         }
+        
+        /* 選項按鈕區塊 - 響應式 Flex 配置 */
         .options {
             display: flex;
             gap: 12px;
@@ -99,7 +113,9 @@
             margin-top: 10px;
         }
         .opt-btn {
-            padding: 10px 18px;
+            flex: 1 1 calc(25% - 12px); /* 預設一行四個或根據寬度自適應 */
+            min-width: 120px;
+            padding: 12px 18px;
             background-color: #ffffff;
             border: 2px solid #7A9EB1; /* 強調色：霧霾藍 */
             border-radius: 6px;
@@ -108,11 +124,16 @@
             color: #4C525C;
             font-weight: bold;
             transition: all 0.2s ease;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         .opt-btn:hover {
             background-color: #EBF1F5;
             border-color: #4C525C;
         }
+        
         /* 正確與錯誤狀態回饋 */
         .opt-btn.correct {
             background-color: #E8F5E9; 
@@ -140,6 +161,7 @@
             border-radius: 8px;
             margin-top: 25px;
             box-shadow: inset 0 2px 8px rgba(0,0,0,0.15);
+            overflow-x: auto; /* 防止公式過長超出邊界 */
         }
         .solution-box h3 {
             color: #D9B4B8; /* 輔助色：藕粉色 */
@@ -161,6 +183,50 @@
             50% { transform: translateX(5px); }
             75% { transform: translateX(-5px); }
             100% { transform: translateX(0); }
+        }
+
+        /* ----- 響應式設計 (RWD) ----- */
+        @media (max-width: 768px) {
+            body {
+                padding: 12px;
+            }
+            .container {
+                padding: 20px;
+            }
+            .tab-btn {
+                flex: 1 1 calc(33.333% - 8px); /* 平板顯示一行三個 */
+                font-size: 13px;
+                padding: 8px 10px;
+            }
+            .opt-btn {
+                flex: 1 1 calc(50% - 12px); /* 平板選項一行兩個 */
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 8px;
+            }
+            .container {
+                padding: 15px;
+            }
+            .tab-btn {
+                flex: 1 1 100%; /* 手機版頁籤佔滿整行 */
+            }
+            .options {
+                flex-direction: column; /* 手機版選項垂直排列 */
+            }
+            .opt-btn {
+                width: 100%;
+                flex: 1 1 auto;
+                min-height: 48px; /* 增加點擊區域高度 */
+            }
+            .step {
+                padding: 15px 12px;
+            }
+            .solution-box {
+                padding: 15px;
+            }
         }
     </style>
 </head>
@@ -295,7 +361,7 @@
         <div id="q2-solution" class="solution-box hidden">
             <h3>雙軌對照詳解</h3>
             <p><strong>1. 公式解：</strong></p>
-            <p>\( \Delta x = \frac{5 + 35}{2} \cdot 5 = 20 \cdot 5 = 100 \text; 公尺} \)</p>
+            <p>\( \Delta x = \frac{5 + 35}{2} \cdot 5 = 20 \cdot 5 = 100 \text{ 公尺} \)</p>
             <div class="v-t-graph">
                 <strong>2. v-t 圖解 (利用梯形面積)：</strong>
                 <ul>
@@ -392,7 +458,7 @@
 
     <div id="q6" class="tab-content">
         <div class="question-box">
-            <strong> 進階挑戰：</strong>一列火車作等加速度直線運動。車頭通過 P 點時速度為 \( v \)，車尾通過 P 點時速度為 \( 3v \)。求當「車身恰有<strong> \(1/4\) </strong>」通過 P 點時的瞬時速度。
+            <strong> 進階挑戰：</strong>一列火車作等加速度直線運動。車頭通過 P 點時速度為 \( v \)，車尾通過 P 點時速度為 \( 3v \)。求當「車身恰有<strong> 1/4 </strong>」通過 P 點時的瞬時速度。
         </div>
         <div class="step">
             <div class="step-title">步驟一：尋找「不涉及」的變數</div>
@@ -423,7 +489,7 @@
                     初速為 \(v\)，末速為 \(3v\)，代入公式：<br>
                     \( (3v)^2 = v^2 + 2aL \implies 9v^2 = v^2 + 2aL \implies 2aL = 8v^2 \implies aL = 4v^2 \)
                 </li>
-                <li style="margin-top: 10px;"><strong>觀察前 \(1/4\) 程 (位移 \( \Delta x = \frac{L}{4} \))：</strong><br>
+                <li style="margin-top: 10px;"><strong>觀察前 1/4 程 (位移 \( \Delta x = \frac{L}{4} \))：</strong><br>
                     設此時火車通過 P 點的瞬時速度為 \( v_{1/4} \)：<br>
                     \( v_{1/4}^2 = v^2 + 2a(\frac{L}{4}) \implies v_{1/4}^2 = v^2 + \frac{1}{2}(aL) \)
                 </li>
@@ -436,7 +502,7 @@
                 </li>
             </ol>
             <div class="v-t-graph">
-                💡 <strong>破題體會：</strong> 改成 \(1/4\ L\) 之後算出來的答案是 **\(\sqrt{3}v\)**，非常對稱且漂亮！這完美示範了「整體常數 \(aL\) 代換法」的威力，無論題目改成幾分之幾，學生都能一眼看穿。
+                💡 <strong>破題體會：</strong> 改成 1/4 L 之後算出來的答案是 **\(\sqrt{3}v\)**，非常對稱且漂亮！這完美示範了「整體常數 \(aL\) 代換法」的威力，無論題目改成幾分之幾，學生都能一眼看穿。
             </div>
         </div>
     </div>
